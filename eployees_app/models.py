@@ -22,7 +22,12 @@ class Employees(models.Model):
 
 class Departments(models.Model):
     departmentName = models.CharField(verbose_name="Отдел", max_length=50, unique=True)
-    departmentBoss = models.CharField(verbose_name="Начальник", max_length=40, default="Генеральный директор")
+    bossChoices = [
+        ('GM', 'Генеральный директор'),
+        ('DDB','Заместитель директора по Back-end разработке'),
+        ('DDF','Заместитель директора по Front-end разработке'),
+    ]
+    departmentBoss = models.CharField(verbose_name="Начальник", max_length=3, choices=bossChoices, default="Генеральный директор")
     departmentEmployeesCount = models.IntegerField(verbose_name="Количество сотрудников")
 
     class Meta:
@@ -42,13 +47,15 @@ class Accounting(models.Model):
     )
     employeeSalary = models.IntegerField(verbose_name="Зарплата")
 
-
     class Meta:
         verbose_name = "Бухгалтерия",
         ordering = ['employeeName']
 
     def __str__(self):
         return f'{self.employeeName} {self.employeeSalary}'
+
+    def getSalaryAfterTax(self):
+        return 0.87*self.employeeSalary
 
 class WorkPlan(models.Model):
     task = models.CharField(verbose_name="Задача", max_length=50)
@@ -95,3 +102,4 @@ class Customer(models.Model):
 
     def __str__(self):
         return self.customerName
+
