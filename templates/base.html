@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %} {% endblock %}</title>
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+</head>
+<body>
+    <div class="container mt-5 mb-5">
+        {% block content %}
+        {% endblock %}
+    </div>
+    {% bootstrap_javascript %}
+</body>
+</html>
