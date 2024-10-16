@@ -9,11 +9,11 @@ class Employees(models.Model):
     employeePatronymic = models.CharField(verbose_name="Отчество", max_length=40)
     employeeJobTitle = models.CharField(verbose_name="Должность", max_length=30)
     employeeBirthDate = models.DateField(verbose_name="Дата рождения", auto_now=False)
-    employeePhoto = models.ImageField(verbose_name="Фото", unique=True)
+    employeePhoto = models.ImageField(verbose_name="Фото", null=True)
 
     class Meta:
-        verbose_name = "Сотрудник",
-        verbose_name_plural = "Сотрудники",
+        verbose_name = 'Сотрудник',
+        verbose_name_plural = 'Сотрудники',
         ordering = ['employeeSurname']
 
     def __str__(self):
@@ -26,6 +26,7 @@ class Departments(models.Model):
         ('GM', 'Генеральный директор'),
         ('DDB','Заместитель директора по Back-end разработке'),
         ('DDF','Заместитель директора по Front-end разработке'),
+        ('HMD','Начальник отдела маркетинга'),
     ]
     departmentBoss = models.CharField(verbose_name="Начальник", max_length=3, choices=bossChoices, default="Генеральный директор")
     departmentEmployeesCount = models.IntegerField(verbose_name="Количество сотрудников")
@@ -48,7 +49,7 @@ class Accounting(models.Model):
     employeeSalary = models.IntegerField(verbose_name="Зарплата")
 
     class Meta:
-        verbose_name = "Бухгалтерия",
+        verbose_name = 'Бухгалтерия',
         ordering = ['employeeName']
 
     def __str__(self):
