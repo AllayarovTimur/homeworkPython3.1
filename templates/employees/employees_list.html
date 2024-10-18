@@ -1,0 +1,38 @@
+{% extends '../base.html' %}
+{% block title %} Сотрудники {% endblock %}
+{% load bootstrap4 %}
+{% block sidebar %}
+    <div class="col-md-3">
+        <div class="card-body">
+            <form method="get">
+                {% csrf_token %}
+                {{ filter.form.as_p }}
+                {% buttons %}
+                    <button type="submit" class="btn btn-primary">Поиск</button>
+                {% endbuttons %}
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <h1>Сотрудники</h1>
+        <div class="row">
+            {% for employee in employees %}
+            <div class="col-md-4 mt-4">
+                <div class="card h-100">
+                    <div class="card-img-container">
+                        <img src="{{ employee.cover.url }}" class="card-img-top img-fluid">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ employee.employeeSurname }}</h5>
+                        <p class="card-text">{{ employee.employeeJobTitle }}</p>
+                        <a href="{% url 'employee_detail' employee.pk %}" class="btn btn-primary">Детали</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+<br>
+ <a href="{% url 'employee_create' %}" class="btn btn-warning">Добавить</a>
+{% endblock %}

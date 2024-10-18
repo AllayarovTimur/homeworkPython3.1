@@ -7,13 +7,18 @@ class Employees(models.Model):
     employeeSurname = models.CharField(verbose_name="Фамилия", max_length=40)
     employeeName = models.CharField(verbose_name="Имя", max_length=40)
     employeePatronymic = models.CharField(verbose_name="Отчество", max_length=40)
-    employeeJobTitle = models.CharField(verbose_name="Должность", max_length=30)
+    jobTitleChoices = [
+        ('Back-end разработчик', 'Back-end разработчик'),
+        ('Front-end разработчик', 'Front-end разработчик'),
+        ('Специалист отдела маркетинга', 'Специалист отдела маркетинга'),
+    ]
+    employeeJobTitle = models.CharField(verbose_name="Должность", max_length=30, choices=jobTitleChoices)
     employeeBirthDate = models.DateField(verbose_name="Дата рождения", auto_now=False)
-    employeePhoto = models.ImageField(verbose_name="Фото", unique=True)
+    employeePhoto = models.ImageField(verbose_name="Фото", null=True)
 
     class Meta:
-        verbose_name = "Сотрудник",
-        verbose_name_plural = "Сотрудники",
+        verbose_name = 'Сотрудник',
+        verbose_name_plural = 'Сотрудники',
         ordering = ['employeeSurname']
 
     def __str__(self):
@@ -23,11 +28,12 @@ class Employees(models.Model):
 class Departments(models.Model):
     departmentName = models.CharField(verbose_name="Отдел", max_length=50, unique=True)
     bossChoices = [
-        ('GM', 'Генеральный директор'),
-        ('DDB','Заместитель директора по Back-end разработке'),
-        ('DDF','Заместитель директора по Front-end разработке'),
+        ('Генеральный директор', 'Генеральный директор'),
+        ('Заместитель директора по Back-end разработке','Заместитель директора по Back-end разработке'),
+        ('Заместитель директора по Front-end разработке','Заместитель директора по Front-end разработке'),
+        ('Начальник отдела маркетинга','Начальник отдела маркетинга'),
     ]
-    departmentBoss = models.CharField(verbose_name="Начальник", max_length=3, choices=bossChoices, default="Генеральный директор")
+    departmentBoss = models.CharField(verbose_name="Начальник", max_length=50, choices=bossChoices, default="Генеральный директор")
     departmentEmployeesCount = models.IntegerField(verbose_name="Количество сотрудников")
 
     class Meta:
@@ -43,12 +49,13 @@ class Accounting(models.Model):
         Employees,
         verbose_name="Сотрудник",
         max_length=40,
+        related_name='accounting',
         on_delete=models.CASCADE,
     )
     employeeSalary = models.IntegerField(verbose_name="Зарплата")
 
     class Meta:
-        verbose_name = "Бухгалтерия",
+        verbose_name = 'Бухгалтерия',
         ordering = ['employeeName']
 
     def __str__(self):
