@@ -13,34 +13,40 @@ class EmployeesTestCase(TestCase):
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['employees'].count(), models.Employees.objects.count())
+        self.assertIsNotNone(self.employee.employeeSurname)
 
     def test_get_employee_detail(self):
         url = reverse('employee_detail', kwargs={'pk': self.employee.pk})
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
 
+
     def test_employee_update(self):
         url = reverse('employee_update', kwargs={'pk': self.employee.pk})
         old_employeeSurname = self.employee.employeeSurname
 
         response = self.client.post(url,
-                                   {'employeeSurname': 'new_employeeSurname'},
-                                   )
+                                    {'employeeSurname': 'new_employeeSurname'},
+                                    )
         self.employee.refresh_from_db()
 
-        #self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.status_code, 302)
+        self.assertNotEqual(models.Employees.objects.count(), 0)
         self.assertNotEqual(self.employee.employeeSurname, old_employeeSurname)
 
 
     def test_employee_create(self):
         url = reverse('employee_create')
-        response = self.client.put(url,
-                                   {'employeeSurname': 'new_employeeSurname'},
-                                   {'employeeName': 'new_employeeName'},
-                                   )
+        response = self.client.post(url,
+                                    {'employeeSurname': 'new_employeeSurname'},
+                                    )
         self.employee.refresh_from_db()
 
         self.assertEqual(response.status_code, 302)
+        self.assertEqual(models.Employees.objects.count(), 2)
+        self.assertIsNotNone(self.employee.employeeSurname)
+
+    
     
     def test_employee_delete(self):
         url = reverse('employee_delete', kwargs={'pk': self.employee.pk})

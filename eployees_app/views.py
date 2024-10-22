@@ -27,11 +27,11 @@ class EmployeeUpdate(UpdateView):
     model = Employees
     context_object_name = 'employee'
     fields = ['employeeSurname',
-              'employeeName',
-              'employeePatronymic',
-              'employeeJobTitle',
-              'employeeBirthDate',
-              'employeePhoto'
+              #'employeeName',
+              #'employeePatronymic',
+              #'employeeJobTitle',
+              #'employeeBirthDate',
+              #'employeePhoto'
               ]
     def get_success_url(self):
         return reverse_lazy('employee_detail', kwargs={'pk': self.object.pk} )
@@ -41,11 +41,11 @@ class EmployeeCreate(CreateView):
     model = Employees
     context_object_name = 'employee'
     fields = ['employeeSurname',
-              'employeeName',
-              'employeePatronymic',
-              'employeeJobTitle',
-              'employeeBirthDate',
-              'employeePhoto'
+              #'employeeName',
+              #'employeePatronymic',
+              #'employeeJobTitle',
+              #'employeeBirthDate',
+              #'employeePhoto'
               ]
 
     def get_success_url(self):

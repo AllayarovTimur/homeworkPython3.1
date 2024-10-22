@@ -13,7 +13,7 @@ class Employees(models.Model):
         ('Специалист отдела маркетинга', 'Специалист отдела маркетинга'),
     ]
     employeeJobTitle = models.CharField(verbose_name="Должность", max_length=30, choices=jobTitleChoices)
-    employeeBirthDate = models.DateField(verbose_name="Дата рождения", auto_now=False)
+    employeeBirthDate = models.DateField(verbose_name="Дата рождения", null=True, blank=True)
     employeePhoto = models.ImageField(verbose_name="Фото", null=True)
 
     class Meta:
