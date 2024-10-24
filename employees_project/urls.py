@@ -19,12 +19,21 @@ from django.conf.urls.static import static
 from eployees_app import views
 from django.contrib import admin
 from django.urls import path
+from rest_framework.routers import DefaultRouter
+from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
+router = DefaultRouter()
+
+router.register('employees', views.EmployeeAPI, basename='employees')
+router.register('workplan', views.WorkPlanAPI, basename='workplan')
 
 urlpatterns = [
+    path('schema/', SpectacularAPIView.as_view(), name='schema'),
+    path('swagger/', SpectacularSwaggerView.as_view(url_name='schema')),
     path('admin/', admin.site.urls),
     path('employees_list/', views.EmployeesList.as_view(), name='employees_list'),
     path('employee/<int:pk>/', views.EmployeeDetail.as_view(), name = 'employee_detail'),
     path('employee/<int:pk>/update', views.EmployeeUpdate.as_view(), name = 'employee_update'),
     path('employee_create', views.EmployeeCreate.as_view(), name = 'employee_create'),
     path('employee/<int:pk>/delete', views.EmployeeDelete.as_view(), name = 'employee_delete'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) + router.urls

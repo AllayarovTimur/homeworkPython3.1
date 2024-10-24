@@ -43,7 +43,12 @@ INSTALLED_APPS = [
     'eployees_app',
     'bootstrap4',
     'django_filters',
+    'rest_framework',
+    'drf_spectacular',
+
 ]
+
+REST_FRAMEWORK = {'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

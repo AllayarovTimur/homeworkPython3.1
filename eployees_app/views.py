@@ -4,12 +4,22 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, UpdateView, CreateView, DeleteView
-from eployees_app.models import Employees
+from eployees_app.models import Employees, WorkPlan
 from django_filters.views import FilterView
 from eployees_app import filters
+from rest_framework import viewsets
+from eployees_app import serializers
 
 
 # Create your views here.
+
+class EmployeeAPI(viewsets.ModelViewSet):
+    queryset = Employees.objects.all()
+    serializer_class = serializers.Employees
+
+class WorkPlanAPI(viewsets.ModelViewSet):
+    queryset = WorkPlan.objects.all()
+    serializer_class = serializers.WorkPlan
 
 class EmployeesList(FilterView):
     template_name = 'employees/employees_list.html'
